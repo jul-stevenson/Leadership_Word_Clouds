@@ -2,7 +2,9 @@
 from os import path
 from nltk import *
 from wordcloud import WordCloud
+from PIL import Image
 import matplotlib.pyplot as plt
+import numpy as np
 
 d = path.dirname(__file__)
 
@@ -30,10 +32,11 @@ for y in tagged_Female:
         female_words += ' '
         female_words += y[1]
 
+man_mask = np.array(Image.open(path.join(d, "man.jpg")))
 
 # Generate wordcloud images
-maleWordCloud = WordCloud().generate(male_words)
-femaleWordCloud = WordCloud().generate(femaleText)
+maleWordCloud = WordCloud(max_words=30, mask=man_mask).generate(male_words)
+femaleWordCloud = WordCloud(background_color="white", max_words=30).generate(femaleText)
 
 # Display images
 plt.imshow(maleWordCloud)
